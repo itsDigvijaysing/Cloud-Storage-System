@@ -1,12 +1,24 @@
 <html>
  <head>
- <title>How to encrypt and upload file using PHP </title>
+ <title>Encrypted Storage</title>
  </head> 
- <body style="background-color:#aaaaaa" >
- <div style="height: 100vh;
+ <body style="background-image: url('main_wall_3.png');
+			  background-repeat: no-repeat;
+			  background-size: cover;
+ " >
+ <div style="
+			margin: auto;
+			/* top:10%; */
+ 			height: 100vh;
+			text-align: center;
     		display: flex;
     		justify-content: center;
-    		align-items: center;">
+    		align-items: center;
+			background-color:#ffffff;
+			height: 80%;
+			width:60%;
+			border-radius:25px;
+			">
  <!-- <div style="padding: 10px;"> -->
  
 <!-- </div> -->
