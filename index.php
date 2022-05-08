@@ -50,7 +50,7 @@
  for($a =2; $a<count($files); $a++) {
 	?>
 	 	<p>
-		<a dowload ="<?php echo $files[$a] ?>"  href="download/<?php echo $files[$a] ?>"><?php echo $files["$a"] ?></a>
+		<a upload ="<?php echo $files[$a] ?>"  href="upload/<?php echo $files[$a] ?>"><?php echo $files["$a"] ?></a>
 		</P>
 		<?php
 	}?>
