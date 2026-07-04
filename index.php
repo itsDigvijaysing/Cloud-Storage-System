@@ -8,20 +8,15 @@
  " >
  <div style="
 			margin: auto;
-			/* top:10%; */
- 			height: 100vh;
+ 			height: 80vh;
 			text-align: center;
     		display: flex;
     		justify-content: center;
     		align-items: center;
 			background-color:#ffffff;
-			height: 80%;
 			width:60%;
 			border-radius:25px;
 			">
- <!-- <div style="padding: 10px;"> -->
- 
-<!-- </div> -->
  <div style="padding: 10px;">
  <form action="upload.php" method="post" enctype="multipart/form-data" name="formFileUpload" id="formFileUpload"> 
  <table border="0"> 
@@ -39,33 +34,35 @@
 </div>
 <br><br>
 <div>
-	<form action="delete.php" method="delete" name="deleteall" id="deleteall" >
+	<form action="delete.php" method="post" name="deleteall" id="deleteall" >
 	<input type="submit" value="Delete All">
  </form>
 <div style="padding: 10px;">
-  <h3>Encrypted Files<h3>
+  <h3>Encrypted Files</h3>
   <?php
-  $files = scandir("upload");
+  $files = is_dir("upload") ? scandir("upload") : [];
  
- for($a =2; $a<count($files); $a++) {
+ for($a = 2; $a < count($files); $a++) {
+	$safeName = htmlspecialchars($files[$a], ENT_QUOTES, 'UTF-8');
 	?>
 	 	<p>
-		<a upload ="<?php echo $files[$a] ?>"  href="upload/<?php echo $files[$a] ?>"><?php echo $files["$a"] ?></a>
-		</P>
+		<a href="upload/<?php echo $safeName; ?>"><?php echo $safeName; ?></a>
+		</p>
 		<?php
 	}?>
 </div>
 <br><br>
 <div style="padding: 10px;">
-  <h3>Decypted files<h3>
+  <h3>Decrypted Files</h3>
   <?php
-  $files = scandir("download");
+  $files = is_dir("download") ? scandir("download") : [];
  
- for($a =2; $a<count($files); $a++) {
+ for($a = 2; $a < count($files); $a++) {
+	$safeName = htmlspecialchars($files[$a], ENT_QUOTES, 'UTF-8');
 	?>
 	 	<p>
-		<a dowload ="<?php echo $files[$a] ?>"  href="download/<?php echo $files[$a] ?>"><?php echo $files["$a"] ?></a>
-		</P>
+		<a href="download/<?php echo $safeName; ?>"><?php echo $safeName; ?></a>
+		</p>
 		<?php
 	}?>
 </div>

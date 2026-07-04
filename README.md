@@ -1,6 +1,12 @@
 # Cloud Computing Project
 
-Encrpted Personal cloud storage system.
+Encrypted personal cloud storage system built with PHP.
+
+## Setup
+
+1. Copy `.env.example` to `.env` and set a strong `STORAGE_KEY`.
+2. Ensure PHP has the OpenSSL extension enabled.
+3. Serve the project with a PHP-capable web server; `upload/` and `download/` are created automatically.
 
 ## Website Link
 

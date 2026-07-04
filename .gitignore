@@ -1,2 +1,5 @@
-downloads/
+download/
 upload/
+.env
+.DS_Store
+*.log
