@@ -1,8 +1,10 @@
 <?php
 
+require_once __DIR__ . '/config.php';
+
 $uploadDirectory = "upload/";
 $downloadDirectory = "download/";
-$keyvalue = getenv('STORAGE_KEY') ?: '';
+$keyvalue = storageKey();
 
 if ($keyvalue === '') {
 	http_response_code(500);

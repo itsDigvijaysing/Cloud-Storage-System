@@ -8,6 +8,12 @@ Encrypted personal cloud storage system built with PHP.
 2. Ensure PHP has the OpenSSL extension enabled.
 3. Serve the project with a PHP-capable web server; `upload/` and `download/` are created automatically.
 
+The app loads environment values from `.env` via `config.php`.
+
+## Migration note
+
+Files encrypted with the older base64 demo format are not compatible with the current AES-based storage. Delete old files in `upload/` and `download/` before using the new format, or keep a backup if you still need the legacy files.
+
 ## Website Link
 
 https://encryptedstorage.000webhostapp.com/index.php
