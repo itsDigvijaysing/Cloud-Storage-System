@@ -8,7 +8,7 @@ Encrypted personal cloud storage system built with PHP.
 2. Ensure PHP has the OpenSSL extension enabled.
 3. Serve the project with a PHP-capable web server; `upload/` and `download/` are created automatically.
 
-The app loads environment values from `.env` via `config.php`.
+Files are stored encrypted in `upload/` and downloaded through `download.php`. Direct access to stored files is blocked when Apache `.htaccess` rules are enabled.
 
 ## Migration note
 

@@ -3,7 +3,6 @@
 require_once __DIR__ . '/config.php';
 
 $uploadDirectory = "upload/";
-$downloadDirectory = "download/";
 $keyvalue = storageKey();
 
 if ($keyvalue === '') {
@@ -13,9 +12,6 @@ if ($keyvalue === '') {
 
 if (!is_dir($uploadDirectory)) {
 	mkdir($uploadDirectory, 0755, true);
-}
-if (!is_dir($downloadDirectory)) {
-	mkdir($downloadDirectory, 0755, true);
 }
 
 $fileName = basename($_FILES['fileToUpload']['name']);
@@ -32,22 +28,14 @@ if ($error === UPLOAD_ERR_OK && $fileName !== '') {
 	$content = fread($file, filesize($tempFileName));
 	fclose($file);
 
-	$iv = openssl_random_pseudo_bytes(16);
-	$encrypted = openssl_encrypt(
-		$content,
-		'AES-256-CBC',
-		hash('sha256', $keyvalue, true),
-		OPENSSL_RAW_DATA,
-		$iv
-	);
-
-	if ($encrypted === false) {
+	$encryptedContent = encryptContent($content, $keyvalue);
+	if ($encryptedContent === false) {
 		http_response_code(500);
 		exit('Encryption failed.');
 	}
 
-	$encryptedContent = base64_encode($iv . $encrypted);
-	$encryptedFileSaveName = $uploadDirectory . md5($fileName) . ".data";
+	$storedName = md5($fileName) . ".data";
+	$encryptedFileSaveName = $uploadDirectory . $storedName;
 	$encryptedFile = fopen($encryptedFileSaveName, 'w');
 	if ($encryptedFile === false) {
 		http_response_code(500);
@@ -56,33 +44,11 @@ if ($error === UPLOAD_ERR_OK && $fileName !== '') {
 
 	fwrite($encryptedFile, $encryptedContent);
 	fclose($encryptedFile);
+
+	$metaFileSaveName = $uploadDirectory . md5($fileName) . ".meta";
+	file_put_contents($metaFileSaveName, $fileName);
+
 	print("Encrypted file uploaded successfully.");
-
-	$data = base64_decode($encryptedContent);
-	$storedIv = substr($data, 0, 16);
-	$storedPayload = substr($data, 16);
-	$decryptedContent = openssl_decrypt(
-		$storedPayload,
-		'AES-256-CBC',
-		hash('sha256', $keyvalue, true),
-		OPENSSL_RAW_DATA,
-		$storedIv
-	);
-
-	if ($decryptedContent === false) {
-		http_response_code(500);
-		exit('Decryption verification failed.');
-	}
-
-	$decryptedFileSaveName = $downloadDirectory . $fileName;
-	$decryptedFile = fopen($decryptedFileSaveName, 'w');
-	if ($decryptedFile === false) {
-		http_response_code(500);
-		exit('Unable to save decrypted file.');
-	}
-
-	fwrite($decryptedFile, $decryptedContent);
-	fclose($decryptedFile);
 } else {
 	print("Error while uploading file.");
 }

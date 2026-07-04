@@ -38,30 +38,23 @@
 	<input type="submit" value="Delete All">
  </form>
 <div style="padding: 10px;">
-  <h3>Encrypted Files</h3>
+  <h3>Stored Files</h3>
   <?php
+  require_once __DIR__ . '/config.php';
   $files = is_dir("upload") ? scandir("upload") : [];
- 
+
  for($a = 2; $a < count($files); $a++) {
-	$safeName = htmlspecialchars($files[$a], ENT_QUOTES, 'UTF-8');
+	if (substr($files[$a], -5) !== '.data') {
+		continue;
+	}
+	$storedName = $files[$a];
+	$displayName = originalFileName($storedName);
+	$safeStoredName = htmlspecialchars($storedName, ENT_QUOTES, 'UTF-8');
+	$safeDisplayName = htmlspecialchars($displayName, ENT_QUOTES, 'UTF-8');
 	?>
 	 	<p>
-		<a href="upload/<?php echo $safeName; ?>"><?php echo $safeName; ?></a>
-		</p>
-		<?php
-	}?>
-</div>
-<br><br>
-<div style="padding: 10px;">
-  <h3>Decrypted Files</h3>
-  <?php
-  $files = is_dir("download") ? scandir("download") : [];
- 
- for($a = 2; $a < count($files); $a++) {
-	$safeName = htmlspecialchars($files[$a], ENT_QUOTES, 'UTF-8');
-	?>
-	 	<p>
-		<a href="download/<?php echo $safeName; ?>"><?php echo $safeName; ?></a>
+		<?php echo $safeDisplayName; ?>
+		<a href="download.php?file=<?php echo urlencode($storedName); ?>">Download</a>
 		</p>
 		<?php
 	}?>
